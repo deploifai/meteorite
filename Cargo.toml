@@ -1,0 +1,16 @@
+[package]
+name = "meteorite"
+version = "0.0.1"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+pyo3 = { version = "0.18.1", features = ["extension-module"] }
+pyo3-asyncio = { version = "0.18", features = ["attributes", "tokio-runtime"] }
+actix-web = "4"
+actix-http = "3.3.1"
+tokio = { version = "1.26.0", features = ["full"] }
+env_logger = "0.10.0"
+serde = "1.0.157"
+serde_json = "1.0.94"
