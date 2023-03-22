@@ -1,0 +1,33 @@
+name: Build Python wheels
+
+on: [push, pull_request]
+
+jobs:
+  builds:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["windows", "ubuntu", "macos"]
+        pyversion: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+    name: Run ${{ matrix.os }} build for Python ${{ matrix.pyversion }}
+    runs-on: ${{ matrix.os }}-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.pyversion }}
+
+      - name: Install maturin
+        run: |
+          python -m pip install --upgrade pip
+          pip install maturin
+
+      - name: Install MacOS target only for universal build
+        if: matrix.os == 'macos'
+        run: rustup target add aarch64-apple-darwin
+
+      - name: Build wheel
+        run: |
+          maturin build -i python --universal2
