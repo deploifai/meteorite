@@ -35,4 +35,4 @@ jobs:
         env:
           MATURIN_PYPI_TOKEN: ${{ secrets.MATURIN_PYPI_TOKEN }}
         run: |
-          maturin publish -i python --universal2
+          maturin publish -i python --no-sdist --universal2
