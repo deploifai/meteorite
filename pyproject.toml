@@ -1,0 +1,14 @@
+[project]
+name = "meteorite"
+description = "A fast and simple web server for machine learning models"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {file= "LICENSE"}
+keywords = ["model", "server", "api", "hosting"]
+maintainers = [
+    {name = "Utkarsh Goel", email = "utkarsh@deploif.ai"}
+]
+
+[build-system]
+requires = ["maturin>=0.14,<0.15"]
+build-backend = "maturin"
