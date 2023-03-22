@@ -50,19 +50,19 @@ impl Meteorite {
                     let predict_callback = predict_callback.clone();
                     let app = App::new();
                     app.route("/predict",
-                        web::route().to(move |_req: HttpRequest, body: Bytes| {
-                            handle(predict_callback.clone(), body)
-                        })
-                    )
+                              web::route().to(move |_req: HttpRequest, body: Bytes| {
+                                  handle(predict_callback.clone(), body)
+                              })
+                             )
                         .wrap(Logger::default())
                         .default_service(web::get().to(HttpResponse::Ok))
                 })
-                    .workers(1)
-                    .keep_alive(KeepAlive::Os)
-                    .bind(("0.0.0.0", 4000)).unwrap()
-                    .run()
-                    .await
-                    .unwrap();
+                .workers(1)
+                .keep_alive(KeepAlive::Os)
+                .bind(("0.0.0.0", 4000)).unwrap()
+                .run()
+                .await
+                .unwrap();
             });
         });
 
@@ -76,7 +76,6 @@ impl Meteorite {
 }
 
 async fn handle(predict_callback: Py<PredictCallback>, body: Bytes) -> HttpResponse {
-    let predict_callback = predict_callback.clone();
     let mut response_builder = HttpResponse::Ok();
     let output = run_python_function(predict_callback, body).await;
     let headers = output.headers;
