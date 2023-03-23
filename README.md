@@ -25,11 +25,11 @@ app = meteorite.Meteorite()
 
 @app.predict
 def predict(data):
-    body = bytearray(data).decode("utf-8")
+    body = data.decode("utf-8")
     """
     Run your model on the input
     """
-    return {"result": "value"}
+    return body
 
 app.start()
 ```
