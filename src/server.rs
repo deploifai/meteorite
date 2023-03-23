@@ -77,13 +77,18 @@ impl Meteorite {
 
 async fn handle(predict_callback: Py<PredictCallback>, body: Bytes) -> HttpResponse {
     let mut response_builder = HttpResponse::Ok();
-    let output = run_python_function(predict_callback, body).await;
-    let headers = output.headers;
-    for header in headers.keys() {
-        let key = header.clone();
-        let value = headers.get(header).unwrap().clone();
-        response_builder.insert_header((key, value));
+    match run_python_function(predict_callback, body).await {
+        Ok(output) => {
+            let headers = output.headers;
+            for header in headers.keys() {
+                let key = header.clone();
+                let value = headers.get(header).unwrap().clone();
+                response_builder.insert_header((key, value));
+            }
+            response_builder.body(output.body)
+        },
+        Err(_) => {
+            HttpResponse::InternalServerError().finish()
+        }
     }
-    let response = response_builder.body(output.body);
-    response
 }

@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use actix_web::web::{Bytes};
 use pyo3::{Py, PyAny, Python};
 use pyo3::prelude::*;
-use pyo3::types::{PyBytes, PyDict, PyString};
+use pyo3::types::{PyDict, PyString};
 use serde_json::{Map, Value};
 
 #[derive(Clone)]
@@ -60,15 +60,15 @@ impl PredictCallback {
     }
 }
 
-pub async fn run_python_function(func_: Py<PredictCallback>, body: Bytes) -> Response {
-    let output = Python::with_gil(|py| -> Response {
-        let py_bytes = PyBytes::new_with(py, body.len(), |bytes| {
-            bytes.copy_from_slice(body.as_ref());
-            Ok(())
-        }).unwrap();
-        let fn_call_response = func_.call1(py, (py_bytes, )).unwrap();
-        let fn_call_response_ref = fn_call_response.as_ref(py);
-        Response::new(fn_call_response_ref)
-    });
-    output
+pub async fn run_python_function(func_: Py<PredictCallback>, body: Bytes) -> Result<Response, PyErr> {
+    let bytes = body.as_ref();
+    Python::with_gil(|py| -> Result<Response, PyErr> {
+        match func_.call1(py, (bytes, )) {
+            Ok(retval) => Ok(Response::new(retval.as_ref(py))),
+            Err(err) => {
+                println!("{}\n{}", err.traceback(py).expect("").format().unwrap(), err.to_string());
+                Err(err)
+            }
+        }
+    })
 }
