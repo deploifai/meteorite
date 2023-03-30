@@ -7,10 +7,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["windows", "ubuntu", "macos"]
+        os: ["windows-latest", "ubuntu-20.04", "macos-latest"]
         pyversion: ["3.7", "3.8", "3.9", "3.10", "3.11"]
     name: Run ${{ matrix.os }} build for Python ${{ matrix.pyversion }}
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
 
@@ -25,7 +25,7 @@ jobs:
           pip install maturin
 
       - name: Install MacOS target only for universal build
-        if: matrix.os == 'macos'
+        if: matrix.os == 'macos-latest'
         run: rustup target add aarch64-apple-darwin
 
       - name: Build wheel
