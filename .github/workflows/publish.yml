@@ -17,6 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install latest stable
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
+            override: true
+            components: rustfmt
+
+      - name: Setup rust toolchain
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          rustup target add x86_64-unknown-linux-gnu
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -26,13 +37,29 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install maturin
+          pip install ziglang
 
       - name: Install MacOS target only for universal build
         if: matrix.os == 'macos-latest'
         run: rustup target add aarch64-apple-darwin
 
-      - name: Release
+      - name: Release for MacOS
         env:
           MATURIN_PYPI_TOKEN: ${{ secrets.MATURIN_PYPI_TOKEN }}
+        if: matrix.os == 'macos-latest'
         run: |
           maturin publish -i python --no-sdist --universal2
+
+      - name: Release for Linux
+        env:
+          MATURIN_PYPI_TOKEN: ${{ secrets.MATURIN_PYPI_TOKEN }}
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          maturin publish --target x86_64-unknown-linux-gnu -i python --zig --no-sdist
+
+      - name: Release for Windows
+        env:
+          MATURIN_PYPI_TOKEN: ${{ secrets.MATURIN_PYPI_TOKEN }}
+        if: matrix.os == 'windows-latest'
+        run: |
+          maturin publish -i python --no-sdist
