@@ -32,7 +32,7 @@ impl Meteorite {
         })
     }
 
-    fn start(&self, py: Python) -> PyResult<()> {
+    fn start(&self, py: Python, port: Option<u16>) -> PyResult<()> {
         env::set_var("RUST_LOG", "actix_web=info,actix_server=info");
         env_logger::init();
 
@@ -59,7 +59,8 @@ impl Meteorite {
                 })
                 .workers(1)
                 .keep_alive(KeepAlive::Os)
-                .bind(("0.0.0.0", 4000)).unwrap()
+                .bind(("0.0.0.0", port.unwrap_or(4000)))
+                .unwrap()
                 .run()
                 .await
                 .unwrap();
