@@ -31,7 +31,7 @@ def predict(data):
     """
     return body
 
-app.start()
+app.start(port=4000) # port is 4000 by default
 ```
 
 By default, the server starts at port `4000`. The `predict` function will run with GET/POST requests on `/predict`.
@@ -48,7 +48,7 @@ Some of the features we're still working on:
 
 - [x] Pass POST request String and JSON into the Python function.
 - [x] Return String and JSON with the correct content type headers.
-- [ ] Graceful error handling (⚠️ Priority).
+- [x] Graceful error handling (⚠️ Priority).
 - [ ] Customise the route and port for the main task.
 - [ ] Allow more datatypes for POST request to the model.
 - [ ] Create more examples.
