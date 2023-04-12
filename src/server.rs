@@ -1,9 +1,10 @@
 use std::process::{abort};
-use std::{env, thread};
+use std::{thread};
 use actix_http::{KeepAlive};
 use actix_web::{App, HttpRequest, HttpResponse, HttpServer, web};
 use actix_web::middleware::Logger;
 use actix_web::web::{Bytes};
+use env_logger::Env;
 use crate::handlers::{PredictCallback, run_python_function};
 use pyo3::prelude::*;
 use pyo3::types::{PyFunction};
@@ -33,8 +34,7 @@ impl Meteorite {
     }
 
     fn start(&self, py: Python, port: Option<u16>) -> PyResult<()> {
-        env::set_var("RUST_LOG", "actix_web=info,actix_server=info");
-        env_logger::init();
+        env_logger::init_from_env(Env::default().default_filter_or("info"));
 
         let asyncio = py.import("asyncio")?;
         let event_loop = asyncio.call_method0("new_event_loop")?;
@@ -55,6 +55,7 @@ impl Meteorite {
                               })
                              )
                         .wrap(Logger::default())
+                        .wrap(Logger::new("%a %{User-Agent}i"))
                         .default_service(web::get().to(HttpResponse::Ok))
                 })
                 .workers(1)
