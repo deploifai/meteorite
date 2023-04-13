@@ -1,13 +1,15 @@
 # ☄️ Meteorite
+
 A fast and simple web server to host your Machine Learning model.
 
 <!-- TOC -->
-* [☄️ Meteorite](#-meteorite)
-  * [Install the pip package](#install-the-pip-package)
-  * [Write your server](#write-your-server)
-  * [Project status](#project-status)
-  * [Contribute to ☄️ Meteorite](#contribute-to--meteorite)
-<!-- TOC -->
+
+- [☄️ Meteorite](#-meteorite)
+  - [Install the pip package](#install-the-pip-package)
+  - [Write your server](#write-your-server)
+  - [Project status](#project-status)
+  - [Contribute to ☄️ Meteorite](#contribute-to--meteorite)
+  <!-- TOC -->
 
 ## Install the pip package
 
@@ -36,12 +38,12 @@ app.start(port=4000) # port is 4000 by default
 
 By default, the server starts at port `4000`. The `predict` function will run with GET/POST requests on `/predict`.
 
-You can go to http://localhost:4000/predict on your browser to see the result, or use a REST API client to test the 
+You can go to http://localhost:4000/predict on your browser to see the result, or use a REST API client to test the
 endpoint.
 
 ## Project status
 
-This project is under active development. We will not recommend you to use this package for critical applications. 
+This project is under active development. We will not recommend you to use this package for critical applications.
 We will welcome all contributions! Please refer to the contributions section for more details.
 
 Some of the features we're still working on:
@@ -49,7 +51,7 @@ Some of the features we're still working on:
 - [x] Pass POST request String and JSON into the Python function.
 - [x] Return String and JSON with the correct content type headers.
 - [x] Graceful error handling (⚠️ Priority).
-- [ ] Customise the route and port for the main task.
+- [x] Customise the port for the server
 - [ ] Allow more datatypes for POST request to the model.
 - [ ] Create more examples.
 
