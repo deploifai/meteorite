@@ -1,5 +1,6 @@
 mod handlers;
 mod server;
+mod middleware;
 
 use pyo3::prelude::*;
 
