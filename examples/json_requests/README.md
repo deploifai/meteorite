@@ -1,4 +1,4 @@
-# Example: Send JSON request to your model
+# Send a JSON request to your model
 
 ### Sending the POST request via CURL
 
