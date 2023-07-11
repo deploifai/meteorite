@@ -48,7 +48,7 @@ jobs:
           MATURIN_PYPI_TOKEN: ${{ secrets.MATURIN_PYPI_TOKEN }}
         if: matrix.os == 'macos-latest'
         run: |
-          maturin publish -i python --no-sdist --universal2
+          maturin publish -i python --no-sdist --target universal2-apple-darwin
 
       - name: Release for Linux
         env:

@@ -6,9 +6,10 @@ requires-python = ">=3.7"
 license = {file= "LICENSE"}
 keywords = ["model", "server", "api", "hosting"]
 maintainers = [
-    {name = "Utkarsh Goel", email = "utkarsh@deploif.ai"}
+    {name = "Utkarsh Goel", email = "utkarsh@deploif.ai"},
+    {name = "Sean Chok", email = "seanchok@deploif.ai"}
 ]
 
 [build-system]
-requires = ["maturin>=0.14,<0.15"]
+requires = ["maturin>=1.1,<2"]
 build-backend = "maturin"

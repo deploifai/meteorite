@@ -44,7 +44,7 @@ jobs:
       - name: Build wheel for macos
         if: matrix.os == 'macos-latest'
         run: |
-          maturin build -i python --universal2
+          maturin build -i python --target universal2-apple-darwin
       
       - name: Build wheel for linux
         if: matrix.os == 'ubuntu-20.04'
