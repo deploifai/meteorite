@@ -11,7 +11,7 @@ class Meteorite:
         Initializes the Meteorite server app
         """
 
-    def predict(self, wraps: typing.Callable[[bytes], typing.Union[str, dict]]) -> None:
+    def predict(self, wraps: typing.Callable[[bytes], typing.Union[str, dict[str, any]]]) -> None:
         """
         Decorator to wrap a model inference function.
         The inference function should take in a bytes object and return a string or a dictionary.
